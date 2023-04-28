@@ -13,7 +13,7 @@ async function main() {
     const paymasterContract = new ethers.Contract(paymasterContractAddress, PaymasterContract.interface, deployer);
 
 
-    await paymasterContract.deposit({ value: ethers.utils.parseEther("0.1") })
+    await paymasterContract.deposit({ value: ethers.utils.parseEther("0.05") })
     console.log('depositted');
 
 }

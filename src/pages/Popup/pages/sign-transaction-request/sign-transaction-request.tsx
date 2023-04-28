@@ -126,7 +126,7 @@ const SignTransactionConfirmation = ({
             <Typography variant="body2">
               {userOp.paymasterAndData === '0x'
                 ? 'No paymaster has been used'
-                : ';'}
+                : 'paymaster has been set!'}
             </Typography>
             <Button onClick={() => setShowAddPaymasterUI(true)} variant="text">
               Add custom
