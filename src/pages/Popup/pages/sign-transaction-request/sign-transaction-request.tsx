@@ -244,7 +244,7 @@ const SignTransactionConfirmation = ({
               Send
               {showAdMovie && (
                 <CircularProgress
-                  size={24}
+                  size={48}
                   sx={{
                     position: 'absolute',
                     top: '50%',
@@ -258,16 +258,14 @@ const SignTransactionConfirmation = ({
           </Box>
 
           {showAdMovie && (
-            <Box sx={{ marginTop: 2 }}>
-              <iframe
-                width="280"
-                height="150"
-                src="https://www.youtube.com/embed/Jrz7RZJcfvU?autoplay=1"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-              ></iframe>
+            <Box sx={{
+              marginTop: 2,
+              display: 'flex',
+              justifyContent: 'center'
+            }}>
+              <iframe src="https://player.vimeo.com/video/823615097?h=bd5248c7a2&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1"
+                width="280" height="150" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen title="jhxjackypop_01"></iframe>
             </Box>
           )}
 
