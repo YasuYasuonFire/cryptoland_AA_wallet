@@ -67,6 +67,7 @@ const SignTransactionConfirmation = ({
   const [paymasterError, setPaymasterError] = useState<string>('');
   const [paymasterAddress, setPaymasterAddress] = useState<string>('');
   const backgroundDispatch = useBackgroundDispatch();
+  const [showAdMovie, setShowAdMovie] = React.useState<boolean>(false);//広告動画表示の状態を管理
 
   const addPaymaster = useCallback(async () => {
     console.log(paymasterAddress);
@@ -235,14 +236,45 @@ const SignTransactionConfirmation = ({
             <Button
               sx={{ width: 150 }}
               variant="contained"
-              onClick={() => onSend()}
+              onClick={() => {
+                onSend();
+                setShowAdMovie(true);//Sendボタン押下と同時に広告表示
+              }}
             >
               Send
+              {showAdMovie && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    marginTop: '-12px',
+                    marginLeft: '-12px',
+                  }}
+                />
+              )}
             </Button>
           </Box>
+
+          {showAdMovie && (
+            <Box sx={{ marginTop: 2 }}>
+              <iframe
+                width="280"
+                height="150"
+                src="https://www.youtube.com/embed/Jrz7RZJcfvU?autoplay=1"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </Box>
+          )}
+
         </Paper>
-      )}
-    </Container>
+      )
+      }
+    </Container >
   );
 };
 
@@ -284,7 +316,7 @@ const SignTransactionRequest = () => {
             context: _context || context,
           })
         );
-      window.close();
+      // window.close();
     },
     [activeAccount, backgroundDispatch, context]
   );
