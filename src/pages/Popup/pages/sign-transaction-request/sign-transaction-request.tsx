@@ -65,36 +65,46 @@ const SignTransactionConfirmation = ({
   const [showAddPaymasterUI, setShowAddPaymasterUI] = useState<boolean>(false);
   const [addPaymasterLoader, setAddPaymasterLoader] = useState<boolean>(false);
   const [paymasterError, setPaymasterError] = useState<string>('');
-  const [paymasterUrl, setPaymasterUrl] = useState<string>('');
+  const [paymasterAddress, setPaymasterAddress] = useState<string>('');
   const backgroundDispatch = useBackgroundDispatch();
 
   const addPaymaster = useCallback(async () => {
-    console.log(paymasterUrl);
-    setAddPaymasterLoader(true);
-    if (paymasterUrl) {
-      const paymasterRPC = new ethers.providers.JsonRpcProvider(paymasterUrl, {
-        name: 'Paymaster',
-        chainId: parseInt(activeNetwork.chainID),
-      });
-      try {
-        const paymasterResp = await paymasterRPC.send(
-          'eth_getPaymasterAndDataSize',
-          [userOp]
-        );
-        backgroundDispatch(
-          setUnsignedUserOperation({
-            ...userOp,
-            paymasterAndData: paymasterResp,
-            verificationGasLimit: paymasterResp.verificationGasLimit,
-          })
-        );
-      } catch (e) {
-        console.log(e);
-        setPaymasterError('Paymaster url returned error');
-      }
-      setAddPaymasterLoader(false);
+    console.log(paymasterAddress);
+    // setAddPaymasterLoader(true);
+    if (paymasterAddress) {
+      // const paymasterRPC = new ethers.providers.JsonRpcProvider(paymasterUrl, {
+      //   name: 'Paymaster',
+      //   chainId: parseInt(activeNetwork.chainID),
+      // });
+      // try {
+      //   const paymasterResp = await paymasterRPC.send(
+      //     'eth_getPaymasterAndDataSize',
+      //     [userOp]
+      //   );
+      //   backgroundDispatch(
+      //     setUnsignedUserOperation({
+      //       ...userOp,
+      //       paymasterAndData: paymasterResp,
+      //       verificationGasLimit: paymasterResp.verificationGasLimit,
+      //     })
+      //   );
+      // } catch (e) {
+      //   console.log(e);
+      //   setPaymasterError('Paymaster url returned error');
+      // }
+      const paymasterAndData = paymasterAddress; //paymasterコントラクトアドレスのみ格納
+      console.log('paymasterAndData', paymasterAndData);
+      backgroundDispatch(
+        setUnsignedUserOperation({
+          ...userOp,
+          paymasterAndData,
+          preVerificationGas: 1000000,
+          verificationGasLimit: 1000000,
+        })
+      );
+      // setAddPaymasterLoader(false);
     }
-  }, [activeNetwork.chainID, backgroundDispatch, paymasterUrl, userOp]);
+  }, [activeNetwork.chainID, backgroundDispatch, paymasterAddress, userOp]);
 
   return (
     <Container>
@@ -116,7 +126,7 @@ const SignTransactionConfirmation = ({
             <Typography variant="body2">
               {userOp.paymasterAndData === '0x'
                 ? 'No paymaster has been used'
-                : ';'}
+                : 'paymaster has been set!'}
             </Typography>
             <Button onClick={() => setShowAddPaymasterUI(true)} variant="text">
               Add custom
@@ -126,10 +136,10 @@ const SignTransactionConfirmation = ({
         {showAddPaymasterUI && (
           <Paper sx={{ p: 2 }}>
             <TextField
-              value={paymasterUrl}
-              onChange={(e) => setPaymasterUrl(e.target.value)}
+              value={paymasterAddress}
+              onChange={(e) => setPaymasterAddress(e.target.value)}
               sx={{ width: '100%' }}
-              label="Paymaster URL"
+              label="Paymaster Address"
               variant="standard"
             />
             {paymasterError}
