@@ -20,4 +20,12 @@ export default {
         'https://ethereum.org/static/6b935ac0e6194247347855dc3d328e83/6ed5f/eth-diamond-black.webp',
     },
   },
+  paymasterAddress: [ //paymasterコントラクトのアドレス
+    '0xBb1b4b23Fa7f4EE1Af8681F03fec91361987A54c',
+    '0x00000AB48215239dBE1bc1e7bFCC818EB426ad7B'//for test
+  ],
+  videoURL: [//paymasterに対応した広告動画URL
+    "https://player.vimeo.com/video/823615097?h=bd5248c7a2&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+    "https://player.vimeo.com/video/437490927?h=26d7f84e5c"
+  ],
 };
