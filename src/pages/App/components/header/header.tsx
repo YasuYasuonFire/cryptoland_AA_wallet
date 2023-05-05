@@ -46,7 +46,7 @@ const Header = () => {
         sx={{ cursor: 'pointer' }}
         onClick={() => navigate('/')}
       >
-        <img height={30} src={logo} className="App-logo" alt="logo" />
+        {/* <img height={30} src={logo} className="App-logo" alt="logo" /> */}
       </Stack>
       <Stack
         direction="row"
@@ -61,7 +61,7 @@ const Header = () => {
             id="chain-selector"
             value={activeNetwork.chainID}
             label="Chain"
-            // onChange={handleChange}
+          // onChange={handleChange}
           >
             {supportedNetworks.map((network) => (
               <MenuItem key={network.chainID} value={network.chainID}>

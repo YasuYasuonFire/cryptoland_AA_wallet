@@ -89,6 +89,7 @@ const SignTransactionConfirmation = ({
   const addPaymaster = useCallback(async () => {
     //1/2の確率で、PaymasterIndexに対応したPaymasterコントラクトアドレスを設定する。それ以外は、Paymasterなし
     const lottery = Math.random();
+    // const lottery: number = 0.1//デモ動画用に固定
     console.log("lottery: ", lottery);
     if (lottery <= 0.5) {
       const paymasterAndData = Config.paymasterAddress[paymasterIndex]; //paymasterコントラクトアドレスのみ格納
@@ -111,6 +112,7 @@ const SignTransactionConfirmation = ({
   //広告動画のランダム選択のため、スポンサー数nを引数に取り、0,1...n-1のいずれかを取得。
   const getRandomInt = (n: number) => {
     const result: number = Math.floor(Math.random() * n);
+    // const result: number = 0; //デモ動画用に固定
     console.log("PaymasterIndex: ", result);
     setPaymasterIndex(result);
   }
@@ -126,7 +128,7 @@ const SignTransactionConfirmation = ({
         <AccountInfo activeAccount={activeAccount} accountInfo={accountInfo} />
       )}
       <Stack spacing={2} sx={{ position: 'relative', pt: 2, mb: 4 }}>
-        <OriginInfo permission={originPermission} />
+        {/* <OriginInfo permission={originPermission} /> */}
         <Typography variant="h6" sx-={{ p: 2 }}>
           {transactions.length > 1 ? ' Transactions data' : 'Transaction data'}
         </Typography>
@@ -158,77 +160,86 @@ const SignTransactionConfirmation = ({
           ))}
         </Stack>
       </Stack>
-      {!showAddPaymasterUI && (
-        <Paper
-          elevation={3}
-          sx={{
-            position: 'sticky',
-            bottom: 0,
-            left: 0,
-            width: '100%',
-          }}
-        >
-          <Box
-            justifyContent="space-around"
-            alignItems="center"
-            display="flex"
-            sx={{ p: 2 }}
+      {
+        !showAddPaymasterUI && (
+          <Paper
+            elevation={3}
+            sx={{
+              position: 'sticky',
+              bottom: 0,
+              left: 0,
+              width: '100%',
+            }}
           >
-            <Button sx={{ width: 150 }} variant="outlined" onClick={onReject}>
-              Reject
-            </Button>
-            <Button
-              sx={{ width: 150 }}
-              variant="contained"
-              onClick={() => {
-                // onSend();
-                getRandomInt((Config.paymasterAddress).length);//スポンサーをランダムに選択
-                addPaymaster();//選択したスポンサーをpaymasterに設定する or paymasterなし　を1/2の確率で選択
-                setShowAdMovie(true);//Sendボタン押下と同時に広告表示
-
-              }}
+            <Box
+              justifyContent="space-around"
+              alignItems="center"
+              display="flex"
+              sx={{ p: 2 }}
             >
-              Send
-              {showAdMovie && (
-                <CircularProgress
-                  size={48}
-                  sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    marginTop: '-12px',
-                    marginLeft: '-12px',
-                  }}
-                />
-              )}
-            </Button>
-          </Box>
+              <Button sx={{ width: 150 }} variant="outlined" onClick={onReject}>
+                Reject
+              </Button>
+              <Button
+                sx={{ width: 150 }}
+                variant="contained"
+                onClick={() => {
+                  // onSend();
+                  getRandomInt((Config.paymasterAddress).length);//スポンサーをランダムに選択
+                  addPaymaster();//選択したスポンサーをpaymasterに設定する or paymasterなし　を1/2の確率で選択
+                  setShowAdMovie(true);//Sendボタン押下と同時に広告表示
 
-          {showAdMovie && (
-            <Box sx={{
-              marginTop: 2,
-              display: 'flex',
-              justifyContent: 'center'
-            }}>
-              {/* paymasterに対応した動画URLをconfigから取得 */}
-              <iframe src={Config.videoURL[paymasterIndex] + "&autoplay=1&muted=1"}
-                width="280" height="150" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-                allowfullscreen ></iframe>
+                }}
+              >
+                Send
+                {showAdMovie && (
+                  <CircularProgress
+                    size={48}
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      marginTop: '-12px',
+                      marginLeft: '-12px',
+                    }}
+                  />
+                )}
+              </Button>
             </Box>
-          )}
-          {!showAdMovie && showText && paymasterAddress && (
-            <Box sx={{ marginTop: 2, display: 'flex', justifyContent: 'center' }}>
-              <Typography variant="h6">当たり〜ガス代無料です！</Typography>
-            </Box>
-          )}
-          {!showAdMovie && showText && !paymasterAddress && (
-            <Box sx={{ marginTop: 2, display: 'flex', justifyContent: 'center' }}>
-              <Typography variant="h6">はずれ〜ガス代は自腹でね</Typography>
-            </Box>
-          )}
 
-        </Paper>
-      )
+            {showAdMovie && (
+              <Box sx={{
+                marginTop: 2,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+              }}>
+                {/* paymasterに対応した動画URLをconfigから取得 */}
+                <iframe src={Config.videoURL[paymasterIndex] + "&autoplay=1&muted=1"}
+                  width="280" height="150" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+                  allowfullscreen ></iframe>
+                <Typography variant="subtitle1" align="center" sx={{ marginTop: 1 }}>
+                  Displaying advertisement
+                </Typography>
+                <Typography variant="subtitle1" align="center">
+                  広告を表示しています
+                </Typography>
+              </Box>
+            )}
+            {!showAdMovie && showText && paymasterAddress && (
+              <Box sx={{ marginTop: 2, display: 'flex', justifyContent: 'center' }}>
+                <Typography variant="h6">当たり〜ガス代無料です🎉</Typography>
+              </Box>
+            )}
+            {!showAdMovie && showText && !paymasterAddress && (
+              <Box sx={{ marginTop: 2, display: 'flex', justifyContent: 'center' }}>
+                <Typography variant="h6">はずれ〜ガス代は自腹でね😭</Typography>
+              </Box>
+            )}
+
+          </Paper>
+        )
       }
     </Container >
   );
