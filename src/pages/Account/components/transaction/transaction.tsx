@@ -21,9 +21,9 @@ const Transaction = ({
     <>
       <CardContent>
         <Typography variant="h3" gutterBottom>
-          Dummy Account Component
+          Gas Free Wallet
         </Typography>
-        <Typography variant="body1" color="text.secondary">
+        {/* <Typography variant="body1" color="text.secondary">
           You can show as many steps as you want in this dummy component. You
           need to call the function <b>onComplete</b> passed as a props to this
           component. <br />
@@ -36,10 +36,15 @@ const Transaction = ({
         </Typography>
         <Typography variant="caption">
           trampoline/src/pages/Account/components/transaction/index.ts
+        </Typography> */}
+        <Typography variant="body1" color="text.secondary">
+          Lucky you, your gas bill might become free!<br />
+          ラッキーなあなたはガス代が無料になるかも！
         </Typography>
       </CardContent>
-      <CardActions sx={{ pl: 4, pr: 4, width: '100%' }}>
-        <Stack spacing={2} sx={{ width: '100%' }}>
+      {/* <CardActions sx={{ pl: 4, pr: 4, width: '100%' }}> */}
+      <CardActions sx={{ pl: 4, pr: 4 }}>
+        <Stack spacing={2} sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
           <Button
             disabled={loader}
             size="large"
